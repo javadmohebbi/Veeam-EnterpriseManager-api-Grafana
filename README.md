@@ -11,8 +11,7 @@ Shell-script uses **jq** to extract information from JSON objects
 This link https://stedolan.github.io/jq/download/ will guide you how to install **jq** on your machine.
 
 # Steps to go
-1. Download get-veeam-ent.sh from this github repository.
-2. Change SERVER_ADDRESS, SERVER_PORT, USERNAME & PASSWORD in the downloaded Shell-script
+1. Download get-veeam-ent.sh from this github repository. https://github.com/javadmohebbi/Veeam-EnterpriseManager-api-Grafana/blob/master/get-veeam-ent.sh. Change SERVER_ADDRESS, SERVER_PORT, USERNAME & PASSWORD in the downloaded Shell-script
 3. Make it executable
 ```
 $ chmod +x get-veeam-ent.sh
