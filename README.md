@@ -30,9 +30,8 @@ $ chmod +x get-veeam-ent.sh
 # Grafana Dashboard
 Will be available soon! 
 
-# Contact
-I would be happy to hear from you about anythings related or not related to this project
+# Contact Information 
 
-me@mjmohebbi.com
-http://mjmohebbi.com
-Twitter: https://twitter.com/MohebbiMJ
+- me@mjmohebbi.com
+- http://mjmohebbi.com
+- Twitter: https://twitter.com/MohebbiMJ
