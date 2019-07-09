@@ -17,7 +17,7 @@ This link https://stedolan.github.io/jq/download/ will guide you how to install 
 ```
 $ chmod +x get-veeam-ent.sh
 ```
-4. Use Telegraf config file to run Shell-script 
+4. Use Telegraf config file to run Shell-script - An example of conf file is availabe at: https://github.com/javadmohebbi/Veeam-EnterpriseManager-api-Grafana/blob/master/Veeam-Telegraf.example.conf
 ```
 [[inputs.exec]]
   commands = ["bash /path/to/get-veeam-ent.sh" ]
