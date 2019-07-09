@@ -1,23 +1,36 @@
 #!/bin/bash
-
-
+# Author: M. Javad Mohebbi
+# Website: http://mjmohebbi.com
+# Email: me@mjmohebbi.com
+# Twitter: https://twitter.com/MohebbiMJ
 
 # Veeam Enterprise Manager Server - API
+#
+# Fetch information from VEM RESTful API and stroe it to InfluxDB usnig Telegraf
+#
+
+# Server IP Address or DNS name
 SERVER_ADDRESS="192.168.1.1"
+
+# Server Port - Default 9399
 SERVER_PORT="9399"
-
-API_URL="$SERVER_ADDRESS:$SERVER_PORT"
-
-#TMP XML FILE
-TMP_FILE="/tmp/tmp_resp.tmp"
-JSON_FILE="/tmp/res.json.tmp"
 
 # V.E.M. Credentials
 USERNAME="yourusername"
 PASSWORD="yourpassword"
 
+# API SERVER URL
+API_URL="$SERVER_ADDRESS:$SERVER_PORT"
+
+# TMP XML FILE - Will be created to store information which we get from VEM RESTful API
+# and will be removed once shell script finishes its job
+TMP_FILE="/tmp/tmp_resp.tmp"
+JSON_FILE="/tmp/res.json.tmp"
+
+# Base URL for API
 BASE_URL="$API_URL/api/"
 
+# Latest version of login url
 LOGIN_URL="$BASE_URL/sessionMngr/?v=latest"
 
 
@@ -33,10 +46,6 @@ curl --silent -d "" -X POST "$LOGIN_URL" -H "Content-Type: application/x-www-for
 
 # EXTRACT SESSION ID
 SESSION_ID=$(cat $TMP_FILE | grep -oPm1 "(?<=<SessionId>)[^<]+")
-
-
-
-
 
 
 ###########################
@@ -58,16 +67,14 @@ sum_ov_job_str=$(jq -r ".SuccessfulJobRuns" $JSON_FILE)
 sum_ov_job_wjr=$(jq -r ".WarningsJobRuns" $JSON_FILE)
 sum_ov_job_fjr=$(jq -r ".FailedJobRuns" $JSON_FILE)
 
-echo "veeamEntMgr_Job_Stat,tag=$SERVER_ADDRESS runningJobs=$sum_ov_job_rj"
-echo "veeamEntMgr_Job_Stat,tag=$SERVER_ADDRESS scheduledJobs=$sum_ov_job_sj"
-echo "veeamEntMgr_Job_Stat,tag=$SERVER_ADDRESS scheduledBackupJobs=$sum_ov_job_sbj"
-echo "veeamEntMgr_Job_Stat,tag=$SERVER_ADDRESS scheduledReplicaJobs=$sum_ov_job_srj"
-echo "veeamEntMgr_Job_Stat,tag=$SERVER_ADDRESS totalJobRuns=$sum_ov_job_tjr"
-echo "veeamEntMgr_Job_Stat,tag=$SERVER_ADDRESS successfulJobRuns=$sum_ov_job_str"
-echo "veeamEntMgr_Job_Stat,tag=$SERVER_ADDRESS warningJobRuns=$sum_ov_job_wjr"
-echo "veeamEntMgr_Job_Stat,tag=$SERVER_ADDRESS failedJobRuns=$sum_ov_job_fjr"
-
-
+echo "veeamEntMgr_Job_Stat,hostname=$SERVER_ADDRESS runningJobs=$sum_ov_job_rj"
+echo "veeamEntMgr_Job_Stat,hostname=$SERVER_ADDRESS scheduledJobs=$sum_ov_job_sj"
+echo "veeamEntMgr_Job_Stat,hostname=$SERVER_ADDRESS scheduledBackupJobs=$sum_ov_job_sbj"
+echo "veeamEntMgr_Job_Stat,hostname=$SERVER_ADDRESS scheduledReplicaJobs=$sum_ov_job_srj"
+echo "veeamEntMgr_Job_Stat,hostname=$SERVER_ADDRESS totalJobRuns=$sum_ov_job_tjr"
+echo "veeamEntMgr_Job_Stat,hostname=$SERVER_ADDRESS successfulJobRuns=$sum_ov_job_str"
+echo "veeamEntMgr_Job_Stat,hostname=$SERVER_ADDRESS warningJobRuns=$sum_ov_job_wjr"
+echo "veeamEntMgr_Job_Stat,hostname=$SERVER_ADDRESS failedJobRuns=$sum_ov_job_fjr"
 
 ###########################
 #                         #
@@ -105,9 +112,6 @@ done <<< "$repo_names"
 echo "veeam_repo,hostname=$SERVER_ADDRESS all_capacity=$all_capacity,allfree=$all_free,allused=$all_used"
 
 
-
-
-
 ###########################
 #                         #
 #   Backup Session List   #
@@ -137,10 +141,6 @@ while read -r uid; do
         echo "veeam_bkup_session,hostname=$SERVER_ADDRESS,vmName=$bkup_vm_display_name,res=$bkup_result total_size=$bkup_total_size,bkup_state=\"$bkup_state\",bkup_result=\"$bkup_result\",bkup_reason=\"$bkup_reason\",utc_time=\"$bkup_utc_time\""
 
 done <<< "$bkup_hrefs"
-
-
-
-
 
 rm -f $TMP_FILE
 rm -f $JSON_FILE
