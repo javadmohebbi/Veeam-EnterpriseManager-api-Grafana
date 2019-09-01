@@ -31,7 +31,7 @@ $ chmod +x get-veeam-ent.sh
 ```
 
 # Grafana Dashboard
-Currently I am working on creating a template dashboard and this is the sample screenshot. The JSON file for the dashboard **Will be available soon!** 
+Currently I am working on creating a template dashboard and this is the sample screenshot. The JSON file for the dashboard **is available in this Repo. ** 
 ![Veeam Grafana Simple Dashboard](./Veeam-Simple-Dashboard.jpg)
 
 # Contact Information 
